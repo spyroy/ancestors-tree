@@ -20,9 +20,9 @@ namespace family{
             root.mother = NULL;
         }
         /*add father to the given name in the tree*/
-        Tree addFather(string name, string father){return Tree(" ");}
+        Tree& addFather(string name, string father);
         /*add mother to the given name in the tree*/
-        Tree addMother(string name, string mother){return Tree("");}
+        Tree& addMother(string name, string mother);
         /*displays the tree in a human-friendly format*/
         void display(){;}
         /*returns the relation of given name in the tree

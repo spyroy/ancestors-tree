@@ -7,16 +7,17 @@ using namespace family;
 
 Tree BuildTree(){
     Tree T("matan");
-    T.addFather("matan", "uri");
-    T.addFather("uri", "haim");
-    T.addFather("haim", "leiv");
-    T.addFather("leiv", "avraham");
-    T.addFather("avraham", "adam");
-    T.addMother("matan", "orli");
-    T.addMother("orli", "tirzza");
-    T.addMother("tirzza", "bella");
-    T.addMother("bella", "sarah");
-    T.addMother("sarah", "eve");
+    CHECK_NOTHROW(T.addFather("matan", "uri"));
+    CHECK_NOTHROW(T.addFather("uri", "haim"));
+    CHECK_NOTHROW(T.addFather("haim", "leiv"));
+    CHECK_NOTHROW(T.addFather("leiv", "avraham"));
+    CHECK_NOTHROW(T.addFather("avraham", "adam"));
+    CHECK_NOTHROW(T.addMother("matan", "orli"));
+    CHECK_NOTHROW(T.addMother("orli", "tirzza"));
+    CHECK_NOTHROW(T.addMother("tirzza", "bella"));
+    CHECK_NOTHROW(T.addMother("bella", "sarah"));
+    CHECK_NOTHROW(T.addMother("sarah", "eve"));
+    return T;
 }
 
 Tree BuildComplicatedTree(){
@@ -35,6 +36,7 @@ Tree BuildComplicatedTree(){
     CHECK_NOTHROW(T.addMother("moshe", "eve"));
     CHECK_NOTHROW(T.addFather("tirzza", "eliezer"));
     CHECK_NOTHROW(T.addMother("tirzza", "bella"));
+    return T;
 }
 
 
