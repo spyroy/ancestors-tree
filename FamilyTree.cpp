@@ -4,10 +4,10 @@
 
 using namespace family;
 
-
-Tree& addFather(string name, string father){;}
-Tree& addMother(string name, string mother){;}
-void display(){;}
-string relation(string name){;}
-string find(string name){;}
-void remove(string name){;}
+Tree::Tree(string name){}
+Tree& Tree::addFather(string name, string father){return *this;}
+Tree& Tree::addMother(string name, string mother){return *this;}
+void display(){}
+string relation(string name){return " ";}
+string find(string name){return " ";}
+void remove(string name){}

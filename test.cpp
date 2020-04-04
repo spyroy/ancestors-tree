@@ -61,9 +61,9 @@ Tree BuildTwistedTree(){
 
 TEST_CASE("add father"){
     Tree T("matan");
-    CHECK(T.addFather("matan", "uri") == Tree("uri"));
-    CHECK(T.addFather("uri", "haim") == Tree("haim"));
-    CHECK(T.addFather("haim", "leiv") == Tree("leiv"));
+    CHECK_NOTHROW(T.addFather("matan", "uri"));
+    CHECK_NOTHROW(T.addFather("uri", "haim"));
+    CHECK_NOTHROW(T.addFather("haim", "leiv"));
     CHECK_THROWS(T.addFather("matan", "leiv"));
     CHECK_THROWS(T.addFather("matan", "haim"));
     CHECK_THROWS(T.addFather("matan", "uri"));
@@ -75,9 +75,9 @@ TEST_CASE("add father"){
 
 TEST_CASE("add mother"){
     Tree T("matan");
-    CHECK(T.addMother("matan", "orli") == Tree("orli"));
-    CHECK(T.addMother("orli", "tirzza") == Tree("tirzza"));
-    CHECK(T.addMother("tirzza", "bella") == Tree("bella"));
+    CHECK_NOTHROW(T.addMother("matan", "orli"));
+    CHECK_NOTHROW(T.addMother("orli", "tirzza"));
+    CHECK_NOTHROW(T.addMother("tirzza", "bella"));
     CHECK_THROWS(T.addFather("matan", "tirzza"));
     CHECK_THROWS(T.addFather("matan", "bella"));
     CHECK_THROWS(T.addFather("matan", "orli"));
@@ -289,14 +289,6 @@ TEST_CASE("Exceptions")
     CHECK(ex.relation("sofi") == string("unrelated"));
     CHECK(ex.relation("josh") == string("unrelated"));
     CHECK(ex.relation("nicole") == string("unrelated"));
-    CHECK(ex.addFather("frida", "meir") == Tree("meir"));//Or has two great-grandfathers named meir
-    CHECK_NOTHROW(ex.display());
-
-
-
-
-
-
-
-    
+    CHECK_NOTHROW(ex.addFather("frida", "meir"));//Or has two great-grandfathers named meir
+    CHECK_NOTHROW(ex.display()); 
 }
