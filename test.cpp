@@ -39,6 +39,25 @@ Tree BuildComplicatedTree(){
     return T;
 }
 
+Tree BuildTwistedTree(){
+    Tree T("or");
+    CHECK_NOTHROW(T.addFather("or", "tzvika"));
+    CHECK_NOTHROW(T.addMother("or", "sigal"));
+    CHECK_NOTHROW(T.addFather("tzvika", "moti"));
+    CHECK_NOTHROW(T.addMother("tzika", "frida"));
+    CHECK_NOTHROW(T.addFather("sigal", "moshe"));
+    CHECK_NOTHROW(T.addMother("sigal", "aviva"));
+    CHECK_NOTHROW(T.addFather("moshe", "meir"));
+    CHECK_NOTHROW(T.addMother("moshe", "rivka"));
+    CHECK_NOTHROW(T.addFather("aviva", "eli"));
+    CHECK_NOTHROW(T.addMother("aviva", "sofi"));
+    CHECK_NOTHROW(T.addFather("sofi", "josh"));
+    CHECK_NOTHROW(T.addMother("sofi", "nicole"));
+    CHECK_NOTHROW(T.addFather("moti", "boris"));
+    CHECK_NOTHROW(T.addMother("moti", "shelima"));
+    return T;
+}
+
 
 TEST_CASE("add father"){
     Tree T("matan");
@@ -94,7 +113,7 @@ TEST_CASE("relation"){
 }
 
 TEST_CASE("find"){
-    Tree T = BuildTree();
+    Tree T = BuildTree();//T is matan aka - me
     CHECK(T.find("me") == string("matan"));
     CHECK(T.find("father") == string("uri"));
     CHECK(T.find("grandfather") == string("haim"));
@@ -260,4 +279,24 @@ TEST_CASE("remove"){
     CHECK(T.relation("sarah") == string("great-great-grandmother"));
     CHECK(T.relation("eve") == string("unrelated"));
 
+}
+TEST_CASE("Exceptions")
+{
+    Tree ex=BuildTwistedTree();
+    CHECK(ex.relation("nicole") == string("great-great-grandmother"));//Should be true
+    CHECK(ex.relation("unrelated") == string("great-great-great-grandmother"));
+    ex.remove("sofi");
+    CHECK(ex.relation("sofi") == string("unrelated"));
+    CHECK(ex.relation("josh") == string("unrelated"));
+    CHECK(ex.relation("nicole") == string("unrelated"));
+    CHECK(ex.addFather("frida", "meir") == Tree("meir"));//Or has two great-grandfathers named meir
+    CHECK_NOTHROW(ex.display());
+
+
+
+
+
+
+
+    
 }
