@@ -3,10 +3,13 @@
 using namespace std;
 
 
-namespace family{
+namespace family
+{
     class Tree
     { 
         public:
+            string value;
+            Tree *father,*mother;
             Tree(string name);
             /*add father to the given name in the tree*/
             Tree& addFather(string name, string father);
