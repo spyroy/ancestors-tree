@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include<iostream>
 using namespace std;
@@ -5,11 +7,19 @@ using namespace std;
 
 namespace family
 {
+    class node
+    {
+        public:
+        string name;
+        node*father;
+        node*mother;
+        node(string name);
+
+    };
     class Tree
     { 
         public:
-            string value;
-            Tree *father,*mother;
+            node*root;
             Tree(string name);
             /*add father to the given name in the tree*/
             Tree& addFather(string name, string father);
@@ -24,5 +34,7 @@ namespace family
             string find(string name);
             /*removes the given name from the tree*/
             void remove(string name);
+            node* search_name(node* root,string name);
+            node* search_name(string name);
     };
 };
