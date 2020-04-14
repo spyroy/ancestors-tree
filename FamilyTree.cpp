@@ -12,6 +12,8 @@ Tree::Tree(string name)
 {
     this->root=new node(name);
 }
+/*----------------------------------*/
+//Search section
 node* Tree::search_name(string name)
 {
     return search_name(this->root,name);
@@ -34,6 +36,11 @@ node* Tree::search_name(node* root,string name)
     return nullptr;
 
 }
+/*----------------------------------*/
+
+/*----------------------------------*/
+//Add section
+
 Tree& Tree::addFather(string child,string father)
 {
     node* node_child=search_name(child);
@@ -51,6 +58,8 @@ Tree& Tree::addMother(string child,string mother)
     
     return *this;
 }
+
+/*----------------------------------*/
 string Tree::relation(string name)
 {
     return "";
@@ -65,7 +74,36 @@ void Tree::display()
 {
 
 }
+
+
+/*----------------------------------*/
+//Remove node section
+
+void free_node(node* person)
+{
+    if(person==NULL)
+        return;
+    if(person->father==NULL&&person->mother==NULL)
+        delete(person);
+    free_node(person->father);
+    free_node(person->mother);
+}
+node* remove_node_from_tree(node* root, string name)
+{
+    if(root==NULL)
+        return NULL;
+    if(root->name.compare(name)==0)//Found the relevant person - and it's the temporary root
+    {
+        free_node(root);
+        return NULL;
+    }
+    root->father=remove_node_from_tree(root->father,name);
+    root->mother=remove_node_from_tree(root->mother,name);
+    return root;
+    
+}
 void Tree::remove(string name)
 {
-
+    this->root=remove_node_from_tree(this->root,name);
 }
+/*----------------------------------*/
