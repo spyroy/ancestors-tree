@@ -2,10 +2,6 @@
 #include "doctest.h"
 #include <string>
 
-/*
-Authors: Matan Greenberg & Or Mendel
-*/
-
 using namespace std;
 using namespace family;
 
@@ -48,7 +44,7 @@ Tree BuildTwistedTree(){
     CHECK_NOTHROW(T.addFather("or", "tzvika"));
     CHECK_NOTHROW(T.addMother("or", "sigal"));
     CHECK_NOTHROW(T.addFather("tzvika", "moti"));
-    CHECK_NOTHROW(T.addMother("tzika", "frida"));
+    CHECK_NOTHROW(T.addMother("tzvika", "frida"));
     CHECK_NOTHROW(T.addFather("sigal", "moshe"));
     CHECK_NOTHROW(T.addMother("sigal", "aviva"));
     CHECK_NOTHROW(T.addFather("moshe", "meir"));
@@ -71,7 +67,6 @@ TEST_CASE("add father"){
     CHECK_THROWS(T.addFather("matan", "leiv"));
     CHECK_THROWS(T.addFather("matan", "haim"));
     CHECK_THROWS(T.addFather("matan", "uri"));
-    CHECK_THROWS(T.addFather("uri", "matan"));
     CHECK_THROWS(T.addFather("matan", "matan"));
     CHECK_THROWS(T.addFather("matan", "uri"));
     CHECK_THROWS(T.addFather("mec", "moshe"));
@@ -82,13 +77,13 @@ TEST_CASE("add mother"){
     CHECK_NOTHROW(T.addMother("matan", "orli"));
     CHECK_NOTHROW(T.addMother("orli", "tirzza"));
     CHECK_NOTHROW(T.addMother("tirzza", "bella"));
-    CHECK_THROWS(T.addFather("matan", "tirzza"));
-    CHECK_THROWS(T.addFather("matan", "bella"));
-    CHECK_THROWS(T.addFather("matan", "orli"));
-    CHECK_THROWS(T.addFather("orli", "matan"));
-    CHECK_THROWS(T.addFather("matan", "matan"));
-    CHECK_THROWS(T.addFather("matan", "orli"));
-    CHECK_THROWS(T.addFather("mec", "sarah"));
+    CHECK_THROWS(T.addMother("matan", "tirzza"));
+    CHECK_THROWS(T.addMother("matan", "bella"));
+    CHECK_THROWS(T.addMother("matan", "orli"));
+    CHECK_THROWS(T.addMother("orli", "matan"));
+    CHECK_THROWS(T.addMother("matan", "matan"));
+    CHECK_THROWS(T.addMother("matan", "orli"));
+    CHECK_THROWS(T.addMother("mec", "sarah"));
 }
 
 TEST_CASE("display"){
@@ -125,36 +120,44 @@ TEST_CASE("find"){
     CHECK(T.find("great-great-grandfather") == string("avraham"));
     CHECK(T.find("great-great-great-grandfather") == string("adam"));
     CHECK(T.find("mother") == string("orli"));
-    CHECK(T.relation("grandmother") == string("tirzza"));
-    CHECK(T.relation("great-grandmother") == string("bella"));
-    CHECK(T.relation("great-great-grandmother") == string("sarah"));
-    CHECK(T.relation("great-great-great-grandmother") == string("eve"));
-    CHECK_THROWS(T.relation("great-great-great-great-grandmother"));
-    CHECK_THROWS(T.relation("grand-grandmother"));
-    CHECK_THROWS(T.relation("sister"));
-    CHECK_THROWS(T.relation("brother"));
-    CHECK_THROWS(T.relation("greatmother"));
-    CHECK_THROWS(T.relation("greatfather"));
-    CHECK_THROWS(T.relation("grand-grandfather"));
+    CHECK(T.find("grandmother") == string("tirzza"));
+    CHECK(T.find("great-grandmother") == string("bella"));
+    CHECK(T.find("great-great-grandmother") == string("sarah"));
+    CHECK(T.find("great-great-great-grandmother") == string("eve"));
+    CHECK_THROWS(T.find("great-great-great-great-grandmother"));
+    CHECK_THROWS(T.find("grand-grandmother"));
+    CHECK_THROWS(T.find("sister"));
+    CHECK_THROWS(T.find("brother"));
+    CHECK_THROWS(T.find("greatmother"));
+    CHECK_THROWS(T.find("greatfather"));
+    CHECK_THROWS(T.find("grand-grandfather"));
+    Tree T2 = BuildComplicatedTree();
+    CHECK(T.find("me") == string("matan"));
+    CHECK(T.find("father") == string("uri"));
+    CHECK(T.find("mother") == string("orli"));
+    CHECK((T.find("grandfather") == string("haim") || T.find("grandfather") == string("moshe")));
+    CHECK((T.find("grandmother") == string("tirzza") || T.find("grandmother") == string("ora")));
+    CHECK((T.find("great-grandfather") == string("leiv") || T.find("great-grandfather") == string("eliezer") || T.find("great-grandfather") == string("adam")));
+    CHECK((T.find("great-grandmother") == string("bella") || T.find("great-grandmother") == string("eve") || T.find("great-grandmother") == string("rachel") || T.find("great-grandmother") == string("rivka")));
 }
 
 TEST_CASE("remove"){
     Tree T = BuildTree();
-    T.remove("me");
-    CHECK(T.relation("me") == string("unrelated"));
-    CHECK(T.relation("uri") == string("unrelated"));
-    CHECK(T.relation("haim") == string("unrelated"));
-    CHECK(T.relation("leiv") == string("unrelated"));
-    CHECK(T.relation("avraham") == string("unrelated"));
-    CHECK(T.relation("adam") == string("unrelated"));
-    CHECK(T.relation("orli") == string("unrelated"));
-    CHECK(T.relation("tirzza") == string("unrelated"));
-    CHECK(T.relation("bella") == string("unrelated"));
-    CHECK(T.relation("sarah") == string("unrelated"));
-    CHECK(T.relation("eve") == string("unrelated"));
-    T = BuildTree();
+    // T.remove("matan");
+    // CHECK(T.relation("matan") == string("unrelated"));
+    // CHECK(T.relation("uri") == string("unrelated"));
+    // CHECK(T.relation("haim") == string("unrelated"));
+    // CHECK(T.relation("leiv") == string("unrelated"));
+    // CHECK(T.relation("avraham") == string("unrelated"));
+    // CHECK(T.relation("adam") == string("unrelated"));
+    // CHECK(T.relation("orli") == string("unrelated"));
+    // CHECK(T.relation("tirzza") == string("unrelated"));
+    // CHECK(T.relation("bella") == string("unrelated"));
+    // CHECK(T.relation("sarah") == string("unrelated"));
+    // CHECK(T.relation("eve") == string("unrelated"));
+    CHECK_THROWS(T.remove("matan"));
     T.remove("uri");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("unrelated"));
     CHECK(T.relation("haim") == string("unrelated"));
     CHECK(T.relation("leiv") == string("unrelated"));
@@ -167,7 +170,7 @@ TEST_CASE("remove"){
     CHECK(T.relation("eve") == string("great-great-great-grandmother"));
     T = BuildTree();
     T.remove("orli");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("father"));
     CHECK(T.relation("haim") == string("grandfather"));
     CHECK(T.relation("leiv") == string("great-grandfather"));
@@ -180,7 +183,7 @@ TEST_CASE("remove"){
     CHECK(T.relation("eve") == string("unrelated"));
     T = BuildTree();
     T.remove("haim");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("father"));
     CHECK(T.relation("haim") == string("unrelated"));
     CHECK(T.relation("leiv") == string("unrelated"));
@@ -193,7 +196,7 @@ TEST_CASE("remove"){
     CHECK(T.relation("eve") == string("great-great-great-grandmother"));
     T = BuildTree();
     T.remove("tirzza");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("father"));
     CHECK(T.relation("haim") == string("grandfather"));
     CHECK(T.relation("leiv") == string("great-grandfather"));
@@ -206,7 +209,7 @@ TEST_CASE("remove"){
     CHECK(T.relation("eve") == string("unrelated"));
     T = BuildTree();
     T.remove("leiv");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("father"));
     CHECK(T.relation("haim") == string("grandfather"));
     CHECK(T.relation("leiv") == string("unrelated"));
@@ -219,7 +222,7 @@ TEST_CASE("remove"){
     CHECK(T.relation("eve") == string("great-great-great-grandmother"));
     T = BuildTree();
     T.remove("bella");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("father"));
     CHECK(T.relation("haim") == string("grandfather"));
     CHECK(T.relation("leiv") == string("great-grandfather"));
@@ -232,7 +235,7 @@ TEST_CASE("remove"){
     CHECK(T.relation("eve") == string("unrelated"));
     T = BuildTree();
     T.remove("avraham");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("father"));
     CHECK(T.relation("haim") == string("grandfather"));
     CHECK(T.relation("leiv") == string("great-grandfather"));
@@ -245,7 +248,7 @@ TEST_CASE("remove"){
     CHECK(T.relation("eve") == string("great-great-great-grandmother"));
     T = BuildTree();
     T.remove("sarah");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("father"));
     CHECK(T.relation("haim") == string("grandfather"));
     CHECK(T.relation("leiv") == string("great-grandfather"));
@@ -258,7 +261,7 @@ TEST_CASE("remove"){
     CHECK(T.relation("eve") == string("unrelated"));
     T = BuildTree();
     T.remove("adam");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("father"));
     CHECK(T.relation("haim") == string("grandfather"));
     CHECK(T.relation("leiv") == string("great-grandfather"));
@@ -271,7 +274,7 @@ TEST_CASE("remove"){
     CHECK(T.relation("eve") == string("great-great-great-grandmother"));
     T = BuildTree();
     T.remove("eve");
-    CHECK(T.relation("me") == string("me"));
+    CHECK(T.relation("matan") == string("me"));
     CHECK(T.relation("uri") == string("father"));
     CHECK(T.relation("haim") == string("grandfather"));
     CHECK(T.relation("leiv") == string("great-grandfather"));
@@ -282,13 +285,14 @@ TEST_CASE("remove"){
     CHECK(T.relation("bella") == string("great-grandmother"));
     CHECK(T.relation("sarah") == string("great-great-grandmother"));
     CHECK(T.relation("eve") == string("unrelated"));
-
+    CHECK_THROWS(T.remove("bla"));
 }
 TEST_CASE("Exceptions")
 {
     Tree ex=BuildTwistedTree();
+    CHECK_THROWS(ex.remove("or"));
+    CHECK_FALSE(ex.relation("or") == string("unrelated"));
     CHECK(ex.relation("nicole") == string("great-great-grandmother"));//Should be true
-    CHECK(ex.relation("unrelated") == string("great-great-great-grandmother"));
     ex.remove("sofi");
     CHECK(ex.relation("sofi") == string("unrelated"));
     CHECK(ex.relation("josh") == string("unrelated"));
